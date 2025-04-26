@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block title %}Início - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Bem-vindo ao Templo Digital</h1>
+            <p class="lead">Sistema de gestão para igrejas</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Igrejas</h5>
+                    <p class="card-text">Gerencie suas igrejas e membros.</p>
+                    <a href="{% url 'churches:church_list' %}" class="btn btn-primary">Ver Igrejas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Finanças</h5>
+                    <p class="card-text">Controle financeiro e relatórios.</p>
+                    <a href="{% url 'finances:dashboard' %}" class="btn btn-primary">Ver Finanças</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Eventos</h5>
+                    <p class="card-text">Organize eventos e reuniões.</p>
+                    <a href="{% url 'events:event_list' %}" class="btn btn-primary">Ver Eventos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

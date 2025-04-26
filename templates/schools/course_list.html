@@ -1,0 +1,34 @@
+
+{% extends "base.html" %}
+
+{% block title %}Cursos - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Cursos</h2>
+        <a href="{% url 'schools:course_create' %}" class="btn btn-primary">Novo Curso</a>
+    </div>
+
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.name }}</h5>
+                    <p class="card-text">
+                        <strong>Instrutor:</strong> {{ course.instructor.name }}<br>
+                        <strong>Início:</strong> {{ course.start_date|date:"d/m/Y" }}
+                    </p>
+                    <a href="{% url 'schools:course_detail' course.pk %}" class="btn btn-primary">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>Nenhum curso cadastrado.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block title %}Relatórios - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Relatórios</h2>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Membros</h5>
+                    <p class="card-text">Relatório de membros e estatísticas.</p>
+                    <a href="{% url 'reports:members_report' %}" class="btn btn-primary">Gerar Relatório</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Finanças</h5>
+                    <p class="card-text">Relatório financeiro mensal.</p>
+                    <a href="{% url 'reports:finances_report' %}" class="btn btn-primary">Gerar Relatório</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Eventos</h5>
+                    <p class="card-text">Relatório de eventos recentes.</p>
+                    <a href="{% url 'reports:events_report' %}" class="btn btn-primary">Gerar Relatório</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ event.name }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ event.name }}</h2>
+            <p><strong>Igreja:</strong> {{ event.church.name }}</p>
+            <p><strong>Data:</strong> {{ event.date|date:"d/m/Y H:i" }}</p>
+            <p><strong>Tipo:</strong> {{ event.get_type_display }}</p>
+            <p><strong>Descrição:</strong> {{ event.description }}</p>
+            
+            <div class="mt-4">
+                <a href="{% url 'events:event_update' event.pk %}" class="btn btn-primary">Editar</a>
+                <a href="{% url 'events:event_delete' event.pk %}" class="btn btn-danger">Excluir</a>
+                <a href="{% url 'events:event_list' %}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
