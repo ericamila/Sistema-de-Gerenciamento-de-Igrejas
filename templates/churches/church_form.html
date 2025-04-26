@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block title %}{% if church %}Editar{% else %}Nova{% endif %} Igreja - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">{% if church %}Editar{% else %}Nova{% endif %} Igreja</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ church.name|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ church.address|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="{{ church.phone|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ church.email|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="founded_date" class="form-label">Data de Fundação</label>
+                <input type="date" class="form-control" id="founded_date" name="founded_date" value="{{ church.founded_date|date:'Y-m-d'|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="service_times" class="form-label">Horários de Culto</label>
+                <textarea class="form-control" id="service_times" name="service_times" required>{{ church.service_times|default:'' }}</textarea>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="is_headquarters" name="is_headquarters" {% if church.is_headquarters %}checked{% endif %}>
+                <label class="form-check-label" for="is_headquarters">É Sede</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'churches:church_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
