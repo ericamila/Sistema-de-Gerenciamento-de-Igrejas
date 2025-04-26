@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block title %}Relatório de Eventos - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Relatório de Eventos</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Resumo</h5>
+            <p><strong>Total de Eventos:</strong> {{ total_events }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Eventos Recentes</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Igreja</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>{{ event.name }}</td>
+                            <td>{{ event.get_type_display }}</td>
+                            <td>{{ event.church.name }}</td>
+                            <td>{{ event.date|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Nenhum evento encontrado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+
+{% block title %}Matricular Aluno - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Matricular Aluno em {{ course.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Aluno</label>
+            <select name="person" class="form-select" required>
+                {% for person in people %}
+                <option value="{{ person.id }}">{{ person.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Matricular</button>
+        <a href="{% url 'schools:course_detail' course.pk %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

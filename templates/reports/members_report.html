@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+
+{% block title %}Relatório de Membros - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Relatório de Membros</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Resumo</h5>
+            <p><strong>Total de Membros:</strong> {{ total_members }}</p>
+            <p><strong>Membros Ativos:</strong> {{ active_members }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Lista de Membros</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Igreja</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                        <tr>
+                            <td>{{ member.name }}</td>
+                            <td>{{ member.church.name }}</td>
+                            <td>{{ member.is_active|yesno:"Ativo,Inativo" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

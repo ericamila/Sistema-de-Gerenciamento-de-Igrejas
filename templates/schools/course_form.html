@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block title %}Novo Curso - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Novo Curso</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Igreja</label>
+            <select name="church" class="form-select" required>
+                {% for church in user.churches.all %}
+                <option value="{{ church.id }}">{{ church.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Instrutor</label>
+            <select name="instructor" class="form-select" required>
+                {% for person in people %}
+                <option value="{{ person.id }}">{{ person.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Data de Início</label>
+            <input type="date" name="start_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Data de Término</label>
+            <input type="date" name="end_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Descrição</label>
+            <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'schools:course_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

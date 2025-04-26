@@ -1,0 +1,40 @@
+
+{% extends "base.html" %}
+
+{% block title %}Relatório Financeiro - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Relatório Financeiro - {{ year }}</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Movimentações Mensais</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Mês</th>
+                            <th>Entradas</th>
+                            <th>Saídas</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in monthly_data %}
+                        <tr>
+                            <td>{{ data.month }}</td>
+                            <td class="text-success">R$ {{ data.income|floatformat:2 }}</td>
+                            <td class="text-danger">R$ {{ data.expense|floatformat:2 }}</td>
+                            <td class="{% if data.balance >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                R$ {{ data.balance|floatformat:2 }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

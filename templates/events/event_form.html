@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block title %}{% if event %}Editar{% else %}Novo{% endif %} Evento - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{% if event %}Editar{% else %}Novo{% endif %} Evento</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Igreja</label>
+            <select name="church" class="form-select" required>
+                {% for church in user.churches.all %}
+                <option value="{{ church.id }}" {% if event and event.church_id == church.id %}selected{% endif %}>{{ church.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input type="text" name="name" class="form-control" value="{{ event.name|default:'' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tipo</label>
+            <select name="type" class="form-select" required>
+                {% for type, label in event.TYPES %}
+                <option value="{{ type }}" {% if event and event.type == type %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Data e Hora</label>
+            <input type="datetime-local" name="date" class="form-control" value="{{ event.date|date:'Y-m-d\TH:i' }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Descrição</label>
+            <textarea name="description" class="form-control" rows="3">{{ event.description|default:'' }}</textarea>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="is_public" class="form-check-input" {% if not event or event.is_public %}checked{% endif %}>
+            <label class="form-check-label">Público</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'events:event_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ course.name }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ course.name }}</h2>
+        <a href="{% url 'schools:student_enroll' course.pk %}" class="btn btn-primary">Matricular Aluno</a>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Informações do Curso</h5>
+            <p><strong>Instrutor:</strong> {{ course.instructor.name }}</p>
+            <p><strong>Igreja:</strong> {{ course.church.name }}</p>
+            <p><strong>Início:</strong> {{ course.start_date|date:"d/m/Y" }}</p>
+            <p><strong>Término:</strong> {{ course.end_date|date:"d/m/Y" }}</p>
+            <p><strong>Descrição:</strong><br>{{ course.description }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Alunos Matriculados</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data de Matrícula</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.person.name }}</td>
+                            <td>{{ student.enrollment_date|date:"d/m/Y" }}</td>
+                            <td>{{ student.is_active|yesno:"Ativo,Inativo" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">Nenhum aluno matriculado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
