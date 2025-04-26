@@ -3,6 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Person
+from churches.models import Church
+
 
 @login_required
 def person_list(request):
@@ -16,6 +18,7 @@ def person_detail(request, pk):
 
 @login_required
 def person_create(request):
+    churches = Church.objects.all()
     if request.method == 'POST':
         person = Person.objects.create(
             name=request.POST['name'],
