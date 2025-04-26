@@ -6,6 +6,9 @@ version = "0.1.0"
 [tool.poetry.dependencies]
 Django = "^5.0"
 python = "^3.10"
+django-tailwind = "^4.0.1"
+supabase = "^2.15.0"
+python-dotenv = "^1.1.0"
 [tool.poetry.dev-dependencies]
 
 [tool.pyright]

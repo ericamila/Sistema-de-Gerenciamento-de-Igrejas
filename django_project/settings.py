@@ -38,7 +38,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'churches',
+    'people',
+    'schools',
+    'events',
+    'finances',
 ]
+
+# Configurações de idioma e fuso horário
+LANGUAGE_CODE = 'pt-br'
+TIME_ZONE = 'America/Sao_Paulo'
+
+# Cores do tema
+TEMPLO_DIGITAL_COLORS = {
+    'primary': '#0088CC',  # Azul do Telegram
+    'secondary': '#6c757d',
+    'success': '#28a745', 
+    'danger': '#dc3545',
+    'warning': '#ffc107',
+    'info': '#17a2b8',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
