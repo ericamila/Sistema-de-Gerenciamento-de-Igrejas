@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block title %}{% if person %}Editar{% else %}Nova{% endif %} Pessoa - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">{% if person %}Editar{% else %}Nova{% endif %} Pessoa</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ person.name|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="birth_date" class="form-label">Data de Nascimento</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ person.birth_date|date:'Y-m-d'|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ person.email|default:'' }}">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="{{ person.phone|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ person.address|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="marital_status" class="form-label">Estado Civil</label>
+                <select class="form-select" id="marital_status" name="marital_status" required>
+                    {% for value, label in marital_status_choices %}
+                    <option value="{{ value }}" {% if person.marital_status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="church" class="form-label">Igreja</label>
+                <select class="form-select" id="church" name="church" required>
+                    {% for church in churches %}
+                    <option value="{{ church.id }}" {% if person.church_id == church.id %}selected{% endif %}>{{ church.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'people:person_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
