@@ -19,9 +19,14 @@ def transaction_list(request):
 
 @login_required
 def transaction_create(request):
+    church_member = request.user.churchmember_set.first()
+    if not church_member:
+        messages.error(request, 'Você precisa estar vinculado a uma igreja para registrar transações.')
+        return redirect('churches:church_list')
+
     if request.method == 'POST':
         transaction = Transaction.objects.create(
-            church=request.user.church,
+            church=church_member.church,
             description=request.POST['description'],
             amount=request.POST['amount'],
             type=request.POST['type'],
@@ -36,7 +41,8 @@ def transaction_create(request):
     people = Person.objects.all()
     return render(request, 'finances/transaction_form.html', {
         'accounts': accounts,
-        'people': people
+        'people': people,
+        'church': church_member.church
     })
 
 
