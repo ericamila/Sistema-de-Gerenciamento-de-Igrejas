@@ -11,6 +11,34 @@ class Account(models.Model):
         ('revenue', 'Receita'),
         ('expense', 'Despesa'),
     ]
+
+    DEFAULT_ACCOUNTS = [
+        # Ativos
+        ('1.1', 'Caixa', 'asset'),
+        ('1.2', 'Banco', 'asset'),
+        ('1.3', 'Aplicações Financeiras', 'asset'),
+        
+        # Passivos
+        ('2.1', 'Contas a Pagar', 'liability'),
+        ('2.2', 'Empréstimos', 'liability'),
+        
+        # Patrimônio
+        ('3.1', 'Patrimônio Social', 'equity'),
+        
+        # Receitas
+        ('4.1', 'Dízimos', 'revenue'),
+        ('4.2', 'Ofertas', 'revenue'),
+        ('4.3', 'Doações', 'revenue'),
+        ('4.4', 'Eventos', 'revenue'),
+        
+        # Despesas
+        ('5.1', 'Pessoal', 'expense'),
+        ('5.2', 'Administrativas', 'expense'),
+        ('5.3', 'Manutenção', 'expense'),
+        ('5.4', 'Ministérios', 'expense'),
+        ('5.5', 'Ação Social', 'expense'),
+        ('5.6', 'Missões', 'expense'),
+    ]
     
     code = models.CharField('Código', max_length=20, unique=True)
     name = models.CharField('Nome', max_length=100)

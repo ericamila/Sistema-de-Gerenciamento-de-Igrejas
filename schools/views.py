@@ -20,6 +20,7 @@ def course_detail(request, pk):
 
 @login_required
 def course_create(request):
+    churches = Church.objects.all()
     if request.method == 'POST':
         course = Course.objects.create(
             name=request.POST['name'],
