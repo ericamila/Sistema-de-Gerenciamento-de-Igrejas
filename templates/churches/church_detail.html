@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ church.name }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">{{ church.name }}</h2>
+        <p class="card-text"><strong>Endereço:</strong> {{ church.address }}</p>
+        <p class="card-text"><strong>Telefone:</strong> {{ church.phone }}</p>
+        <p class="card-text"><strong>Email:</strong> {{ church.email }}</p>
+        
+        <h3 class="mt-4">Membros</h3>
+        <ul class="list-group">
+            {% for member in church.churchmember_set.all %}
+            <li class="list-group-item">{{ member.user.get_full_name }}</li>
+            {% empty %}
+            <li class="list-group-item">Nenhum membro cadastrado.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

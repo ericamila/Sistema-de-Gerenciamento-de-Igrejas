@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block title %}Igrejas - {{ block.super }}{% endblock %}
+
+{% block content %}
+<h2>Igrejas</h2>
+<div class="row">
+    {% for church in churches %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ church.name }}</h5>
+                <p class="card-text">{{ church.address }}</p>
+                <a href="{% url 'churches:church_detail' church.pk %}" class="btn btn-primary">Ver Detalhes</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p>Nenhuma igreja cadastrada.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
