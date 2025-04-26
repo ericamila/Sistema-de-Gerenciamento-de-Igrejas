@@ -24,14 +24,15 @@ jobs:
     - name: Create requirements.txt
       run: |
         python -m pip freeze > requirements.txt
+    - name: Install Django
+      run: |
+        pip install django==5.0.1
     - name: Install Dependencies
       run: |
-        python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Configure Django Project
       run: |
         python manage.py migrate
-       # python manage.py collectstatic
     - name: Run Tests
       run: |
         python manage.py test
