@@ -10,10 +10,15 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect('welcome')
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+def welcome(request):
+    if ChurchMember.objects.filter(user=request.user).exists():
+        return redirect('home')
+    return render(request, 'welcome.html')
 
 @login_required
 def profile(request):

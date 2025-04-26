@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
@@ -7,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'home.html')
+
+# Assuming 'views.py' in your app contains the welcome function
+# This is a placeholder, you'll need to create the actual view
+def welcome(request):
+    return render(request, 'welcome.html')
 
 urlpatterns = [
     path('', login_required(home), name='home'),
@@ -20,4 +24,5 @@ urlpatterns = [
     path('events/', include('events.urls')),
     path('schools/', include('schools.urls')),
     path('reports/', include('reports.urls')),
+    path('welcome/', welcome, name='welcome'), # Added welcome page URL
 ]
