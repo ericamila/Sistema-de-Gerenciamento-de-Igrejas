@@ -2,8 +2,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Sum
-from .models import Transaction
+from django.db.models import Sum, Q
+from datetime import datetime
+from .models import Transaction, Account
 from churches.models import Church
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
@@ -56,3 +57,33 @@ def financial_dashboard(request):
         'balance': balance,
     }
     return render(request, 'finances/dashboard.html', context)
+
+@login_required
+def balance_sheet(request):
+    assets = Account.objects.filter(type='asset')
+    liabilities = Account.objects.filter(type='liability')
+    equity = Account.objects.filter(type='equity')
+    
+    context = {
+        'assets': assets,
+        'liabilities': liabilities,
+        'equity': equity,
+        'date': datetime.now()
+    }
+    return render(request, 'finances/balance_sheet.html', context)
+
+@login_required
+def income_statement(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    
+    revenues = Account.objects.filter(type='revenue')
+    expenses = Account.objects.filter(type='expense')
+    
+    context = {
+        'revenues': revenues,
+        'expenses': expenses,
+        'start_date': start_date,
+        'end_date': end_date
+    }
+    return render(request, 'finances/income_statement.html', context)

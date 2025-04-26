@@ -37,8 +37,21 @@
                 <input type="date" class="form-control" id="date" name="date" required>
             </div>
             <div class="mb-3">
-                <label for="category" class="form-label">Categoria</label>
-                <input type="text" class="form-control" id="category" name="category" required>
+                <label for="account" class="form-label">Conta</label>
+                <select name="account" id="account" class="form-select" required>
+                    {% for account in accounts %}
+                    <option value="{{ account.id }}">{{ account }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="person" class="form-label">Pessoa</label>
+                <select name="person" id="person" class="form-select">
+                    <option value="">---------</option>
+                    {% for person in people %}
+                    <option value="{{ person.id }}">{{ person }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="mb-3">
                 <label for="notes" class="form-label">Observações</label>

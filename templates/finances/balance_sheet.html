@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{% block title %}Balanço Patrimonial - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">Balanço Patrimonial</h2>
+        <p class="text-muted">Data: {{ date|date:"d/m/Y" }}</p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Ativo</h3>
+                {% for account in assets %}
+                <div class="d-flex justify-content-between">
+                    <span>{{ account.name }}</span>
+                    <span>R$ {{ account.balance|default:"0.00" }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="col-md-6">
+                <h3>Passivo</h3>
+                {% for account in liabilities %}
+                <div class="d-flex justify-content-between">
+                    <span>{{ account.name }}</span>
+                    <span>R$ {{ account.balance|default:"0.00" }}</span>
+                </div>
+                {% endfor %}
+                
+                <h3 class="mt-4">Patrimônio Líquido</h3>
+                {% for account in equity %}
+                <div class="d-flex justify-content-between">
+                    <span>{{ account.name }}</span>
+                    <span>R$ {{ account.balance|default:"0.00" }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
