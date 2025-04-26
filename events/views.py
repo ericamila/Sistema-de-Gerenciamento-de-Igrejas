@@ -16,6 +16,7 @@ def event_detail(request, pk):
 
 @login_required
 def event_create(request):
+    churches = Church.objects.all()
     if request.method == 'POST':
         event = Event.objects.create(
             church_id=request.POST['church'],

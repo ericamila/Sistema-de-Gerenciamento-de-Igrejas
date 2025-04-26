@@ -53,9 +53,36 @@ Sistema integrado de gestão para igrejas, desenvolvido em Django.
 - Gestão de participantes
 
 ### Finanças
-- Plano de contas
+- Plano de contas estruturado
 - Lançamentos financeiros
 - Relatórios financeiros
+
+#### Plano de Contas
+1. Ativo
+   - 1.1 Caixa
+   - 1.2 Banco
+   - 1.3 Aplicações Financeiras
+
+2. Passivo
+   - 2.1 Contas a Pagar
+   - 2.2 Empréstimos
+
+3. Patrimônio
+   - 3.1 Patrimônio Social
+
+4. Receitas
+   - 4.1 Dízimos
+   - 4.2 Ofertas
+   - 4.3 Doações
+   - 4.4 Eventos
+
+5. Despesas
+   - 5.1 Pessoal
+   - 5.2 Administrativas
+   - 5.3 Manutenção
+   - 5.4 Ministérios
+   - 5.5 Ação Social
+   - 5.6 Missões
 
 ### Escola
 - Gestão de cursos
