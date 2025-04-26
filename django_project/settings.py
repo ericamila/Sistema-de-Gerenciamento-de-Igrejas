@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'schools',
     'events',
     'finances',
+    'reports',
 ]
 
 # Configurações de idioma e fuso horário
