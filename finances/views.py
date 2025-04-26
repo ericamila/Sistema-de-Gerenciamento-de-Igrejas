@@ -18,18 +18,24 @@ def transaction_list(request):
 def transaction_create(request):
     if request.method == 'POST':
         transaction = Transaction.objects.create(
-            church_id=request.POST['church'],
+            church=request.user.church,
             description=request.POST['description'],
             amount=request.POST['amount'],
             type=request.POST['type'],
             date=request.POST['date'],
-            category=request.POST['category'],
+            account_id=request.POST['account'],
+            person_id=request.POST.get('person'),
             notes=request.POST.get('notes', '')
         )
         messages.success(request, 'Transação registrada com sucesso!')
         return redirect('finances:transaction_list')
-    churches = Church.objects.all()
-    return render(request, 'finances/transaction_form.html', {'churches': churches})
+    
+    accounts = Account.objects.all()
+    people = Person.objects.all()
+    return render(request, 'finances/transaction_form.html', {
+        'accounts': accounts,
+        'people': people
+    })
 
 @login_required
 def financial_dashboard(request):
