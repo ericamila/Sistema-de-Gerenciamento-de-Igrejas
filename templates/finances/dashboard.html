@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard Financeiro - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Receitas do Mês</h5>
+                <p class="card-text display-6">R$ {{ monthly_income|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Despesas do Mês</h5>
+                <p class="card-text display-6">R$ {{ monthly_expense|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white {% if balance >= 0 %}bg-primary{% else %}bg-warning{% endif %} mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Saldo</h5>
+                <p class="card-text display-6">R$ {{ balance|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title d-flex justify-content-between align-items-center">
+            Transações Recentes
+            <a href="{% url 'finances:transaction_create' %}" class="btn btn-primary">Nova Transação</a>
+        </h5>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.date }}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.category }}</td>
+                        <td>
+                            <span class="badge {% if transaction.type == 'income' %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ transaction.get_type_display }}
+                            </span>
+                        </td>
+                        <td>R$ {{ transaction.amount|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
