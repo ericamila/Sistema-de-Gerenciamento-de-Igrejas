@@ -33,10 +33,23 @@ def transaction_create(request):
 
 @login_required
 def financial_dashboard(request):
-    # Dados para o dashboard
+    from django.db.models import Count
+    from people.models import Person
+    from churches.models import Church
+    from events.models import Event
+
     current_month = timezone.now().month
     current_year = timezone.now().year
     
+    # Estatísticas gerais
+    total_members = Person.objects.count()
+    total_churches = Church.objects.count()
+    total_events = Event.objects.filter(
+        date__month=current_month,
+        date__year=current_year
+    ).count()
+
+    # Dados financeiros do mês
     monthly_income = Transaction.objects.filter(
         type='income',
         date__month=current_month,
@@ -48,13 +61,37 @@ def financial_dashboard(request):
         date__month=current_month,
         date__year=current_year
     ).aggregate(total=Sum('amount'))['total'] or 0
-    
-    balance = monthly_income - monthly_expense
+
+    # Dados para os gráficos
+    last_6_months = []
+    for i in range(5, -1, -1):
+        month = timezone.now() - timezone.timedelta(days=i*30)
+        members = Person.objects.filter(created_at__lte=month).count()
+        income = Transaction.objects.filter(
+            type='income',
+            date__month=month.month,
+            date__year=month.year
+        ).aggregate(total=Sum('amount'))['total'] or 0
+        expense = Transaction.objects.filter(
+            type='expense',
+            date__month=month.month,
+            date__year=month.year
+        ).aggregate(total=Sum('amount'))['total'] or 0
+        
+        last_6_months.append({
+            'month': month.strftime('%b'),
+            'members': members,
+            'income': income,
+            'expense': expense
+        })
     
     context = {
+        'total_members': total_members,
+        'total_churches': total_churches,
+        'total_events': total_events,
         'monthly_income': monthly_income,
         'monthly_expense': monthly_expense,
-        'balance': balance,
+        'last_6_months': last_6_months,
     }
     return render(request, 'finances/dashboard.html', context)
 

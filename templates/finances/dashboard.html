@@ -1,70 +1,161 @@
 
 {% extends "base.html" %}
 
-{% block title %}Dashboard Financeiro - {{ block.super }}{% endblock %}
+{% block title %}Dashboard - {{ block.super }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4">
-        <div class="card text-white bg-success mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Receitas do Mês</h5>
-                <p class="card-text display-6">R$ {{ monthly_income|floatformat:2 }}</p>
+<div class="p-4">
+    <div class="bg-purple-600 text-white p-6 rounded-lg mb-6">
+        <h1 class="text-2xl font-bold mb-2">Bem-vindo ao Templo Digital</h1>
+        <p class="text-purple-100">
+            Sistema integrado de gestão para sua Igreja. Visualize estatísticas, gerencie membros,
+            eventos, finanças e mais em um só lugar.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- Card de Membros -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-semibold">Total de Membros</h3>
+                    <p class="text-3xl font-bold">{{ total_members }}</p>
+                    <p class="text-sm text-gray-500">Membros ativos</p>
+                </div>
+                <div class="text-purple-600">
+                    <i class="fas fa-users text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Igrejas -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-semibold">Igrejas</h3>
+                    <p class="text-3xl font-bold">{{ total_churches }}</p>
+                    <p class="text-sm text-gray-500">Sede e filiais</p>
+                </div>
+                <div class="text-purple-600">
+                    <i class="fas fa-church text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Eventos -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-semibold">Eventos do Mês</h3>
+                    <p class="text-3xl font-bold">{{ total_events }}</p>
+                    <p class="text-sm text-gray-500">Eventos ativos</p>
+                </div>
+                <div class="text-purple-600">
+                    <i class="fas fa-calendar text-2xl"></i>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-white bg-danger mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Despesas do Mês</h5>
-                <p class="card-text display-6">R$ {{ monthly_expense|floatformat:2 }}</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Card de Arrecadação -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-semibold">Arrecadação Mensal</h3>
+                    <p class="text-3xl font-bold text-green-600">R$ {{ monthly_income|floatformat:2 }}</p>
+                    <p class="text-sm text-gray-500">Dízimos e ofertas</p>
+                </div>
+                <div class="text-green-600">
+                    <i class="fas fa-arrow-trend-up text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Despesas -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-semibold">Despesas Mensais</h3>
+                    <p class="text-3xl font-bold text-red-600">R$ {{ monthly_expense|floatformat:2 }}</p>
+                    <p class="text-sm text-gray-500">Total de despesas</p>
+                </div>
+                <div class="text-red-600">
+                    <i class="fas fa-arrow-trend-down text-2xl"></i>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-white {% if balance >= 0 %}bg-primary{% else %}bg-warning{% endif %} mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Saldo</h5>
-                <p class="card-text display-6">R$ {{ balance|floatformat:2 }}</p>
-            </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Gráfico de Crescimento -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Crescimento da Membresia</h3>
+            <canvas id="membershipChart"></canvas>
+        </div>
+
+        <!-- Gráfico Financeiro -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Relatório Financeiro</h3>
+            <canvas id="financialChart"></canvas>
         </div>
     </div>
 </div>
 
-<div class="card mt-4">
-    <div class="card-body">
-        <h5 class="card-title d-flex justify-content-between align-items-center">
-            Transações Recentes
-            <a href="{% url 'finances:transaction_create' %}" class="btn btn-primary">Nova Transação</a>
-        </h5>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>Categoria</th>
-                        <th>Tipo</th>
-                        <th>Valor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for transaction in transactions %}
-                    <tr>
-                        <td>{{ transaction.date }}</td>
-                        <td>{{ transaction.description }}</td>
-                        <td>{{ transaction.category }}</td>
-                        <td>
-                            <span class="badge {% if transaction.type == 'income' %}bg-success{% else %}bg-danger{% endif %}">
-                                {{ transaction.get_type_display }}
-                            </span>
-                        </td>
-                        <td>R$ {{ transaction.amount|floatformat:2 }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Dados para os gráficos
+    const months = {{ last_6_months|safe }};
+    
+    // Gráfico de Membresia
+    new Chart(document.getElementById('membershipChart'), {
+        type: 'bar',
+        data: {
+            labels: months.map(m => m.month),
+            datasets: [{
+                label: 'Membros',
+                data: months.map(m => m.members),
+                backgroundColor: 'rgba(102, 51, 153, 0.8)',
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Gráfico Financeiro
+    new Chart(document.getElementById('financialChart'), {
+        type: 'line',
+        data: {
+            labels: months.map(m => m.month),
+            datasets: [{
+                label: 'Receitas',
+                data: months.map(m => m.income),
+                borderColor: 'rgb(34, 197, 94)',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                fill: true
+            },
+            {
+                label: 'Despesas',
+                data: months.map(m => m.expense),
+                borderColor: 'rgb(239, 68, 68)',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
