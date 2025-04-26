@@ -47,6 +47,16 @@
             padding: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
+        .dropdown-menu {
+            margin-left: 20px;
+        }
+        .dropdown-item {
+            color: white !important;
+            padding: 8px 20px;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
@@ -60,7 +70,17 @@
         <a href="{% url 'people:person_list' %}"><i class="bi bi-people"></i> People</a>
         <a href="{% url 'schools:course_list' %}"><i class="bi bi-book"></i> School</a>
         <a href="{% url 'events:event_list' %}"><i class="bi bi-calendar"></i> Events</a>
-        <a href="{% url 'finances:dashboard' %}"><i class="bi bi-currency-dollar"></i> Finance</a>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                <i class="bi bi-currency-dollar"></i> Finance
+            </a>
+            <div class="dropdown-menu bg-dark">
+                <a class="dropdown-item" href="{% url 'finances:dashboard' %}">Dashboard</a>
+                <a class="dropdown-item" href="{% url 'finances:transaction_list' %}">Transações</a>
+                <a class="dropdown-item" href="{% url 'finances:balance_sheet' %}">Balanço</a>
+                <a class="dropdown-item" href="{% url 'finances:income_statement' %}">DRE</a>
+            </div>
+        </div>
         <a href="{% url 'reports:report_list' %}"><i class="bi bi-graph-up"></i> Reports</a>
         <a href="{% url 'admin:index' %}"><i class="bi bi-gear"></i> Settings</a>
         
